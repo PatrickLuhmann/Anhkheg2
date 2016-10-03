@@ -48,7 +48,7 @@ namespace Anhkheg2
 				}
 				else
 				{
-					System.Windows.Forms.MessageBox.Show("Congratulations, you have selected a valid Anhkheg2 file.");
+					System.Diagnostics.Debug.WriteLine("Valid Anhkheg2 file selected: " + filename);
 					return true;
 				}
 			}
@@ -61,16 +61,25 @@ namespace Anhkheg2
 		}
 
 		/// <summary>
+		/// Saves the currently-open database file.
+		/// If there is no open file, then this function does nothing.
+		/// </summary>
+		public void SaveDbFile()
+		{
+			if (CurrDbFilename != null)
+			{
+				CurrDataSet.WriteXml(CurrDbFilename, XmlWriteMode.WriteSchema);
+			}
+		}
+
+		/// <summary>
 		/// Close the currently-open database file
 		/// The data is saved before the database is closed.
 		/// </summary>
 		public void CloseDbFile()
         {
-			if (CurrDbFilename != null)
-			{
-				CurrDataSet.WriteXml(CurrDbFilename, XmlWriteMode.WriteSchema);
-				CurrDbFilename = null;
-			}
+			SaveDbFile();
+			CurrDbFilename = null;
 		}
 
 		/// <summary>
@@ -96,7 +105,7 @@ namespace Anhkheg2
 			purchases.Columns["ID"].AutoIncrementStep = 1;
 			purchases.Columns.Add("Date", typeof(DateTime));
 			purchases.Columns.Add("Gallons", typeof(Decimal));
-			purchases.Columns.Add("TripMilage", typeof(Decimal));
+			purchases.Columns.Add("TripMileage", typeof(Decimal));
 			purchases.Columns.Add("Cost", typeof(Decimal));
 			purchases.Columns.Add("Odometer", typeof(UInt32));
 
@@ -122,6 +131,18 @@ namespace Anhkheg2
 		public DataTable GetFuelPurchaseTable()
 		{
 			return CurrDataSet.Tables["Purchases"];
+		}
+
+		public void AddFuelPurchase(DateTime date, Decimal tripMileage, UInt32 odometer, Decimal quantity, Decimal cost)
+		{
+			// Create a new row in the Purchases table.
+			DataRow RowToAdd = CurrDataSet.Tables["Purchases"].NewRow();
+			RowToAdd["Date"] = date;
+			RowToAdd["TripMileage"] = tripMileage;
+			RowToAdd["Odometer"] = odometer;
+			RowToAdd["Gallons"] = quantity;
+			RowToAdd["Cost"] = cost;
+			CurrDataSet.Tables["Purchases"].Rows.Add(RowToAdd);
 		}
 	}
 }

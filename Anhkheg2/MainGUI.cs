@@ -62,8 +62,35 @@ namespace Anhkheg2
 
 			if (dlgAddPurchase.ShowDialog() == DialogResult.OK)
 			{
-				MessageBox.Show("You clicked OK on the add fuel purchase dialog.");
-				// Get and parse the info entered.
+				// Send the data to the app for processing.
+				try
+				{
+					// Get and parse the info entered.
+					DateTime newDate = dlgAddPurchase.Date;
+					Decimal newTripMileage = dlgAddPurchase.TripMileage;
+					UInt32 newOdometer = dlgAddPurchase.Odometer;
+					Decimal newGallons = dlgAddPurchase.Gallons;
+					Decimal newCost = dlgAddPurchase.Cost;
+					System.Diagnostics.Debug.WriteLine("You clicked OK\n" +
+						"Date: " + newDate + "\n" +
+						"Trip Mileage: " + newTripMileage.ToString() + "\n" +
+						"Odometer: " + newOdometer.ToString() + "\n" +
+						"Gallons: " + newGallons.ToString() + "\n" +
+						"Cost: " + newCost.ToString() + "\n");
+
+					// Add it to the db.
+					AppObj.AddFuelPurchase(newDate, newTripMileage, newOdometer, newGallons, newCost);
+
+					// Save the db back to its file.
+					AppObj.SaveDbFile();
+
+					// Update the main data view.
+					dataGridView1.DataSource = AppObj.GetFuelPurchaseTable();
+				}
+				catch (Exception Ex)
+				{
+					MessageBox.Show("ERROR: Bad input.\n" + Ex.Message);
+				}
 			}
 		}
 	}
