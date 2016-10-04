@@ -39,6 +39,7 @@
 			this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.dataGridView1 = new System.Windows.Forms.DataGridView();
+			this.deleteFuelPurchaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuStrip1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
 			this.SuspendLayout();
@@ -96,7 +97,8 @@
 			// editToolStripMenuItem
 			// 
 			this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.addFuelPurchaseToolStripMenuItem});
+            this.addFuelPurchaseToolStripMenuItem,
+            this.deleteFuelPurchaseToolStripMenuItem});
 			this.editToolStripMenuItem.Name = "editToolStripMenuItem";
 			this.editToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
 			this.editToolStripMenuItem.Text = "Edit";
@@ -132,8 +134,16 @@
 			this.dataGridView1.Name = "dataGridView1";
 			this.dataGridView1.ReadOnly = true;
 			this.dataGridView1.RowHeadersVisible = false;
+			this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this.dataGridView1.Size = new System.Drawing.Size(670, 601);
 			this.dataGridView1.TabIndex = 1;
+			// 
+			// deleteFuelPurchaseToolStripMenuItem
+			// 
+			this.deleteFuelPurchaseToolStripMenuItem.Name = "deleteFuelPurchaseToolStripMenuItem";
+			this.deleteFuelPurchaseToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
+			this.deleteFuelPurchaseToolStripMenuItem.Text = "Delete fuel purchase";
+			this.deleteFuelPurchaseToolStripMenuItem.Click += new System.EventHandler(this.deleteFuelPurchaseToolStripMenuItem_Click);
 			// 
 			// MainGUI
 			// 
@@ -166,6 +176,7 @@
 		private System.Windows.Forms.DataGridView dataGridView1;
 		private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem addFuelPurchaseToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem deleteFuelPurchaseToolStripMenuItem;
 	}
 }
 

@@ -113,5 +113,29 @@ namespace Anhkheg2
 			dataGridView1.DataSource = AppObj.GetFuelPurchaseTable();
 			dataGridView1.Columns["ID"].Visible = false;
 		}
+
+		private void deleteFuelPurchaseToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			// A single purchase must already be selected
+			// TODO: Allow multiple deletions at a time?
+			System.Diagnostics.Debug.Write("Selected rows: ");
+			foreach (DataGridViewRow r in dataGridView1.SelectedRows)
+			{
+				// Get the ID for the selected row
+				string idx = r.Cells["ID"].Value.ToString();
+				UInt32 i_idx = Convert.ToUInt32(r.Cells["ID"].Value);
+				String msg = "ID of row " + r.Index.ToString() + " is " + i_idx.ToString() + "; ";
+				System.Diagnostics.Debug.Write(msg);
+
+				DataRow selRow = ((DataTable)dataGridView1.DataSource).Rows.Find(i_idx);
+				selRow.Delete();
+				((DataTable)dataGridView1.DataSource).AcceptChanges(); // not sure if this is needed
+			}
+
+			// Delete the row from the Purchases table.
+
+			// Redraw the data grid.
+			UpdateFuelPurchaseDataView();
+		}
 	}
 }
