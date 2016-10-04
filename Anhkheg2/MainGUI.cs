@@ -34,7 +34,7 @@ namespace Anhkheg2
 
 				if (AppObj.OpenDbFile(fileDialog.FileName))
 				{
-					dataGridView1.DataSource = AppObj.GetFuelPurchaseTable();
+					UpdateFuelPurchaseDataView();
 				}
             }
         }
@@ -91,7 +91,7 @@ namespace Anhkheg2
 					AppObj.SaveDbFile();
 
 					// Update the main data view.
-					dataGridView1.DataSource = AppObj.GetFuelPurchaseTable();
+					UpdateFuelPurchaseDataView();
 				}
 				catch (Exception Ex)
 				{
@@ -104,6 +104,12 @@ namespace Anhkheg2
 		{
 			// Assume that there are no unsaved changes.
 			Application.Exit();
+		}
+
+		private void UpdateFuelPurchaseDataView()
+		{
+			dataGridView1.DataSource = AppObj.GetFuelPurchaseTable();
+			dataGridView1.Columns["ID"].Visible = false;
 		}
 	}
 }
