@@ -58,6 +58,12 @@ namespace Anhkheg2
 
 		private void addFuelPurchaseToolStripMenuItem_Click(object sender, EventArgs e)
 		{
+			if (!AppObj.IsDbOpen)
+			{
+				MessageBox.Show("ERROR: A database file must be opened before adding a fuel purchase.", "No database open");
+				return;
+			}
+
 			FuelPurchaseDialog dlgAddPurchase = new FuelPurchaseDialog();
 
 			if (dlgAddPurchase.ShowDialog() == DialogResult.OK)
@@ -92,6 +98,12 @@ namespace Anhkheg2
 					MessageBox.Show("ERROR: Bad input.\n" + Ex.Message);
 				}
 			}
+		}
+
+		private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			// Assume that there are no unsaved changes.
+			Application.Exit();
 		}
 	}
 }

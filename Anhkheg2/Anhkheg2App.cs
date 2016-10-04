@@ -9,17 +9,22 @@ namespace Anhkheg2
 {
     public class Anhkheg2App
     {
-        private string CurrDbFilename;
+        private String CurrDbFilename;
 		private DataSet CurrDataSet;
 		private static UInt32 CurrSchemaVersion = 1;
+
+		public Boolean IsDbOpen
+		{
+			get { return CurrDbFilename != null; }
+		}
 
         /// <summary>
         /// Open the given database file
         /// The filename is usually provided by the user, but could also
         /// be stored in a configuration file.
         /// </summary>
-        /// <param name="filename"></param>
-        public bool OpenDbFile(string filename)
+        /// <param name="filename">The full name of the database file.</param>
+        public Boolean OpenDbFile(string filename)
         {
 			if (!System.IO.File.Exists(filename))
 				return false;
@@ -49,14 +54,15 @@ namespace Anhkheg2
 				else
 				{
 					System.Diagnostics.Debug.WriteLine("Valid Anhkheg2 file selected: " + filename);
-					return true;
 				}
 			}
 			catch (Exception ex)
 			{
 				System.Windows.Forms.MessageBox.Show("Invalid file selected.\n" + ex.Message);
+				CloseDbFile();
+				return false;
 			}
-			return false;
+			return true;
 
 		}
 
@@ -80,6 +86,11 @@ namespace Anhkheg2
         {
 			SaveDbFile();
 			CurrDbFilename = null;
+			if (CurrDataSet != null)
+			{
+				// Still not sure if need to Dispose or something here.
+				CurrDataSet = null;
+			}
 		}
 
 		/// <summary>
