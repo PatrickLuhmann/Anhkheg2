@@ -53,6 +53,8 @@ namespace Anhkheg2
 				System.Diagnostics.Debug.WriteLine("The user selected the file " + fileDialog.FileName);
 
 				AppObj.CreateNewDbFile(fileDialog.FileName);
+
+				UpdateFuelPurchaseDataView();
 			}
 		}
 
@@ -72,7 +74,7 @@ namespace Anhkheg2
 				try
 				{
 					// Get and parse the info entered.
-					DateTime newDate = dlgAddPurchase.Date;
+					DateTime newDate = dlgAddPurchase.Date.Date;  // want date only
 					Decimal newTripMileage = dlgAddPurchase.TripMileage;
 					UInt32 newOdometer = dlgAddPurchase.Odometer;
 					Decimal newGallons = dlgAddPurchase.Gallons;

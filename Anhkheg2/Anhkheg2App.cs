@@ -137,6 +137,9 @@ namespace Anhkheg2
 			configParameters.Rows.Add(row);
 
 			newDb.WriteXml(filename, XmlWriteMode.WriteSchema);
+
+			CurrDbFilename = filename;
+			CurrDataSet = newDb;
 		}
 
 		public DataTable GetFuelPurchaseTable()
