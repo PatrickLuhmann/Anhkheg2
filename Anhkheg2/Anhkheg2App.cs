@@ -158,5 +158,16 @@ namespace Anhkheg2
 			RowToAdd["Cost"] = cost;
 			CurrDataSet.Tables["Purchases"].Rows.Add(RowToAdd);
 		}
+
+		public void DeleteFuelPurchases(UInt32[] indices)
+		{
+			foreach (UInt32 idx in indices)
+			{
+				DataRow selRow = CurrDataSet.Tables["Purchases"].Rows.Find(idx);
+				selRow.Delete();
+			}
+			CurrDataSet.Tables["Purchases"].AcceptChanges(); // not sure if this is needed
+
+		}
 	}
 }

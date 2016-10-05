@@ -116,23 +116,29 @@ namespace Anhkheg2
 
 		private void deleteFuelPurchaseToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			// A single purchase must already be selected
-			// TODO: Allow multiple deletions at a time?
-			System.Diagnostics.Debug.Write("Selected rows: ");
-			foreach (DataGridViewRow r in dataGridView1.SelectedRows)
-			{
-				// Get the ID for the selected row
-				string idx = r.Cells["ID"].Value.ToString();
-				UInt32 i_idx = Convert.ToUInt32(r.Cells["ID"].Value);
-				String msg = "ID of row " + r.Index.ToString() + " is " + i_idx.ToString() + "; ";
-				System.Diagnostics.Debug.Write(msg);
+			// At least a single purchase must already be selected.
+			if (dataGridView1.SelectedRows.Count == 0)
+				return;
 
-				DataRow selRow = ((DataTable)dataGridView1.DataSource).Rows.Find(i_idx);
-				selRow.Delete();
-				((DataTable)dataGridView1.DataSource).AcceptChanges(); // not sure if this is needed
+			// Give the user the chance to change their mind.
+			if (MessageBox.Show("Warning: Deleted purchases cannot be recovered! Do you wish to proceed?",
+				"Deletion Warning", MessageBoxButtons.OKCancel) == DialogResult.Cancel)
+				return;
+
+			// We must gather the IDs from the rows that have been selected now. Once we start
+			// deleting rows from the table, the SelectedRows collection will also be modified
+			// and we will end up trying to delete rows that don't exist.
+			// NOTE: I have no idea why the row is deleted from the SelectedRows collection when
+			// the corresponding DataRow is removed from the table. I guess there is a connection
+			// between them. I determined this via testing.
+			UInt32[] indices = new UInt32[dataGridView1.SelectedRows.Count];
+			for (int x = 0; x < dataGridView1.SelectedRows.Count; x++)
+			{
+				DataGridViewRow r = dataGridView1.SelectedRows[x];
+				indices[x] = Convert.ToUInt32(r.Cells["ID"].Value.ToString());
 			}
 
-			// Delete the row from the Purchases table.
+			AppObj.DeleteFuelPurchases(indices);
 
 			// Redraw the data grid.
 			UpdateFuelPurchaseDataView();
